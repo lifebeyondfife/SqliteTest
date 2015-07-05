@@ -43,21 +43,17 @@ namespace SqliteTest
         }
     }
     
-    class Program
+    public static class Sqlite
     {
-        static void Main(string[] args)
+        public static IList<string> GetArtists(string startingWith)
         {
             using (var context = new ChinookContext())
             {
-                var artists = from a in context.Artists
-                              where a.Name.StartsWith("A")
-                              orderby a.Name
-                              select a;
-
-                foreach (var artist in artists)
-                {
-                    Console.WriteLine(artist.Name);
-                }
+                return context.Artists.
+                    Where(a => a.Name.StartsWith(startingWith)).
+                    Select(a => a.Name).
+                    OrderBy(n => n).
+                    ToList();
             }
         }
     }
